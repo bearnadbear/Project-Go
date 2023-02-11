@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"project/model"
 	"project/reserv"
@@ -25,7 +26,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		errorsMessage := gin.H{"error": errors}
 
 		response := model.APIResponse("Register account failed", http.StatusUnprocessableEntity, "Error", errorsMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
@@ -52,7 +53,7 @@ func (h *userHandler) Login(c *gin.Context) {
 		errorsMessage := gin.H{"error": errors}
 
 		response := model.APIResponse("Login failed", http.StatusUnprocessableEntity, "Error", errorsMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
@@ -61,7 +62,7 @@ func (h *userHandler) Login(c *gin.Context) {
 		errorsMessage := gin.H{"error": err.Error()}
 
 		response := model.APIResponse("Login failed", http.StatusUnprocessableEntity, "Error", errorsMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
@@ -81,7 +82,7 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 		errorsMessage := gin.H{"error": errors}
 
 		response := model.APIResponse("Email checking failed", http.StatusUnprocessableEntity, "Error", errorsMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
@@ -90,7 +91,7 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 		errorsMessage := gin.H{"error": "Server error"}
 
 		response := model.APIResponse("Email checking failed", http.StatusUnprocessableEntity, "Error", errorsMessage)
-		c.JSON(http.StatusBadRequest, response)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
@@ -107,6 +108,45 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 	}
 
 	response := model.APIResponse(metaMessage, http.StatusOK, "Succes", data)
+
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *userHandler) UploadAvataric(c *gin.Context) {
+	file, err := c.FormFile("avatar")
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+
+		response := model.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "Error", data)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	userID := 1
+
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
+
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+
+		response := model.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "Error", data)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	_, err = h.userService.SaveAvatar(userID, path)
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+
+		response := model.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "Error", data)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	data := gin.H{"is_uploaded": true}
+
+	response := model.APIResponse("Avatar successfuly uploaded", http.StatusOK, "Succes", data)
 
 	c.JSON(http.StatusOK, response)
 }
