@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"project/auth"
 	"project/database"
 	"project/handler"
 	"project/reserv"
@@ -46,8 +47,11 @@ func main() {
 	// tahap 2 - make service
 	userService := reserv.NewService(userRepository)
 
+	// tahap 4
+	authService := auth.NewService()
+
 	// tahap 3 - make user handler to service
-	userHandler := handler.NewUserHandler(userService)
+	userHandler := handler.NewUserHandler(userService, authService)
 
 	router := gin.Default()
 

@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"project/auth"
 	"project/model"
 	"project/reserv"
 
@@ -11,10 +12,11 @@ import (
 
 type userHandler struct {
 	userService reserv.Service
+	authService auth.Service
 }
 
-func NewUserHandler(userService reserv.Service) *userHandler {
-	return &userHandler{userService}
+func NewUserHandler(userService reserv.Service, authService auth.Service) *userHandler {
+	return &userHandler{userService, authService}
 }
 
 func (h *userHandler) RegisterUser(c *gin.Context) {
@@ -37,7 +39,14 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatterUser(user, "cobatoken")
+	token, err := h.authService.GenerateToken(user.ID)
+	if err != nil {
+		response := model.APIResponse("Register account failed", http.StatusBadRequest, "Error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := model.FormatterUser(user, token)
 
 	response := model.APIResponse("Account has been register", http.StatusOK, "Succes", formatter)
 
@@ -66,7 +75,14 @@ func (h *userHandler) Login(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatterUser(user, "cobatoken")
+	token, err := h.authService.GenerateToken(user.ID)
+	if err != nil {
+		response := model.APIResponse("Login failed", http.StatusBadRequest, "Error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := model.FormatterUser(user, token)
 
 	response := model.APIResponse("Successfuly login", http.StatusOK, "Succes", formatter)
 
