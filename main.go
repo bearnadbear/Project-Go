@@ -35,12 +35,6 @@ func main() {
 		panic(err)
 	}
 
-	// Struct User / Table Users
-	// var users []user.User
-
-	// Find struct User to Table Users
-	// db.Find(&users)
-
 	// tahap 1 - make repository
 	userRepository := reserv.NewRepository(db)
 
@@ -59,7 +53,7 @@ func main() {
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
-	api.POST("/avatars", userHandler.UploadAvataric)
+	api.POST("/avatars", auth.AuthMiddleware(authService, userService), userHandler.UploadAvataric)
 
 	router.Run()
 }
