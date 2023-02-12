@@ -58,6 +58,18 @@ CREATE TABLE IF NOT EXISTS transactions(
 	  REFERENCES campaigns(id)
 );
 
--- INSERT INTO users VALUES 
--- 	(1, 'Faris', 'Programmer', 'punyanyaarii@gmail.com', '1234', 'avatar.jpg', 'admin', NOW(), NOW()),
--- 	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '1234', 'avatar-2.jpg', 'user', NOW(), NOW());
+INSERT INTO users VALUES 
+	(1, 'Faris', 'Programmer', 'punyanyaarii@gmail.com', '12345678', '', 'admin', NOW(), NOW()),
+	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '12345678', '', 'admin', NOW(), NOW());
+
+INSERT INTO campaigns VALUES 
+	(1, 1, 'Faris', 'Hahihuheho', 'Huhahihuhe', 'Hoho', 100, 10, 100, 'Hihi', NOW(), NOW()),
+	(2, 2, 'Firdaus', 'Hahihuheho', 'Huhahihuhe', 'Hoho', 200, 20, 200, 'Hihi', NOW(), NOW());
+
+INSERT INTO campaign_images VALUES
+	(1, 1, 'satu.jpg', 0, NOW(), NOW()),
+	(2, 1, 'dua.jpg', 0, NOW(), NOW()),
+	(3, 1, 'tiga.jpg', 1, NOW(), NOW()),
+	(4, 2, 'satu.jpg', 0, NOW(), NOW()),
+	(5, 2, 'dua.jpg', 1, NOW(), NOW()),
+	(6, 2, 'tiga.jpg', 2, NOW(), NOW());
