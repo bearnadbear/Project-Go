@@ -40,12 +40,12 @@ func main() {
 	userRepository := reserv_user.NewRepository(db)
 	campaignRepository := reserv_campaign.NewRepository(db)
 
-	campaign, _ := campaignRepository.FindAll()
-
-	fmt.Println(len(campaign))
 	// tahap 2 - make service
 	userService := reserv_user.NewService(userRepository)
+	campaignService := reserv_campaign.NewService(campaignRepository)
 
+	campaign, _ := campaignService.FindCampaign(4)
+	fmt.Println(len(campaign))
 	// tahap 4
 	authService := auth.NewService()
 
