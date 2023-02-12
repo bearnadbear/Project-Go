@@ -1,4 +1,4 @@
-package reserv
+package reserv_user
 
 import (
 	"errors"

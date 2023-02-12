@@ -2,6 +2,7 @@ package model
 
 import "time"
 
+// Users
 type User struct {
 	ID             int
 	Name           string
@@ -13,3 +14,5 @@ type User struct {
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 }
+
+// Campaigns

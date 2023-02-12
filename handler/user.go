@@ -5,17 +5,17 @@ import (
 	"net/http"
 	"project/auth"
 	"project/model"
-	"project/reserv"
+	"project/reserv_user"
 
 	"github.com/gin-gonic/gin"
 )
 
 type userHandler struct {
-	userService reserv.Service
+	userService reserv_user.Service
 	authService auth.Service
 }
 
-func NewUserHandler(userService reserv.Service, authService auth.Service) *userHandler {
+func NewUserHandler(userService reserv_user.Service, authService auth.Service) *userHandler {
 	return &userHandler{userService, authService}
 }
 
@@ -46,7 +46,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatterUser(user, token)
+	formatter := model.FormatUser(user, token)
 
 	response := model.APIResponse("Account has been register", http.StatusOK, "succes", formatter)
 
@@ -82,7 +82,7 @@ func (h *userHandler) Login(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatterUser(user, token)
+	formatter := model.FormatUser(user, token)
 
 	response := model.APIResponse("Successfuly login", http.StatusOK, "succes", formatter)
 
