@@ -67,9 +67,9 @@ INSERT INTO campaigns VALUES
 	(2, 2, 'Firdaus', 'Hahihuheho', 'Huhahihuhe', 'Hoho', 200, 20, 200, 'Hihi', NOW(), NOW());
 
 INSERT INTO campaign_images VALUES
-	(1, 1, 'satu.jpg', 0, NOW(), NOW()),
-	(2, 1, 'dua.jpg', 0, NOW(), NOW()),
-	(3, 1, 'tiga.jpg', 1, NOW(), NOW()),
-	(4, 2, 'satu.jpg', 0, NOW(), NOW()),
-	(5, 2, 'dua.jpg', 1, NOW(), NOW()),
-	(6, 2, 'tiga.jpg', 2, NOW(), NOW());
+	(1, 1, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
+	(2, 1, 'campaign-images/dua.jpg', 0, NOW(), NOW()),
+	(3, 1, 'campaign-images/tiga.jpg', 1, NOW(), NOW()),
+	(4, 2, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
+	(5, 2, 'campaign-images/dua.jpg', 1, NOW(), NOW()),
+	(6, 2, 'campaign-images/tiga.jpg', 2, NOW(), NOW());
