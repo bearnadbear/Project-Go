@@ -1,1 +1,1 @@
-package reservcampaign
+package reserv_campaign

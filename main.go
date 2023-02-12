@@ -5,6 +5,7 @@ import (
 	"project/auth"
 	"project/database"
 	"project/handler"
+	"project/reserv_campaign"
 	"project/reserv_user"
 
 	"github.com/gin-gonic/gin"
@@ -37,7 +38,11 @@ func main() {
 
 	// tahap 1 - make repository
 	userRepository := reserv_user.NewRepository(db)
+	campaignRepository := reserv_campaign.NewRepository(db)
 
+	campaign, _ := campaignRepository.FindAll()
+
+	fmt.Println(len(campaign))
 	// tahap 2 - make service
 	userService := reserv_user.NewService(userRepository)
 
