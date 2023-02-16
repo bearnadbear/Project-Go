@@ -1,6 +1,5 @@
-package model
+package user
 
-// Users
 type RegisterUserInput struct {
 	Name       string `json:"name" binding:"required"`
 	Occupation string `json:"occupation" binding:"required"`
@@ -15,9 +14,4 @@ type LoginInput struct {
 
 type CheckEmailInput struct {
 	Email string `json:"email" binding:"required,email"`
-}
-
-// Campaigns
-type GetCampaignDetailInput struct {
-	ID int `uri:"id" binding:"required"`
 }

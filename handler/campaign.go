@@ -3,17 +3,18 @@ package handler
 import (
 	"net/http"
 	"project/model"
-	"project/reserv_campaign"
+	camp "project/model/campaign"
+	reposerviceCampaign "project/reposervice/reposervice-campaign"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 type CampaignHandler struct {
-	campaignService reserv_campaign.Service
+	campaignService reposerviceCampaign.Service
 }
 
-func NewCampaignHandler(campaignService reserv_campaign.Service) *CampaignHandler {
+func NewCampaignHandler(campaignService reposerviceCampaign.Service) *CampaignHandler {
 	return &CampaignHandler{campaignService}
 }
 
@@ -27,13 +28,12 @@ func (h *CampaignHandler) GetCampaigns(c *gin.Context) {
 		return
 	}
 
-	response := model.APIResponse("List of campaign", http.StatusOK, "success", model.FormatCampaigns(campaign))
-
+	response := model.APIResponse("List of campaign", http.StatusOK, "success", camp.FormatCampaigns(campaign))
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *CampaignHandler) GetCampaign(c *gin.Context) {
-	var input model.GetCampaignDetailInput
+	var input camp.GetCampaignDetailInput
 
 	err := c.ShouldBindUri(&input)
 	if err != nil {
@@ -49,9 +49,8 @@ func (h *CampaignHandler) GetCampaign(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatCampaignDetail(campaign)
+	formatter := camp.FormatCampaignDetail(campaign)
 
 	response := model.APIResponse("Campaign detail", http.StatusOK, "success", formatter)
-
 	c.JSON(http.StatusOK, response)
 }

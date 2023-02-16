@@ -1,18 +1,18 @@
-package reserv_user
+package reposerviceuser
 
 import (
 	"errors"
-	"project/model"
+	"project/model/user"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Service interface {
-	RegistrasiUser(input model.RegisterUserInput) (model.User, error)
-	Login(input model.LoginInput) (model.User, error)
-	IsAvailableEmail(input model.CheckEmailInput) (bool, error)
-	SaveAvatar(ID int, fileLocation string) (model.User, error)
-	GetUserByID(ID int) (model.User, error)
+	RegistrasiUser(input user.RegisterUserInput) (user.User, error)
+	Login(input user.LoginInput) (user.User, error)
+	IsAvailableEmail(input user.CheckEmailInput) (bool, error)
+	SaveAvatar(ID int, fileLocation string) (user.User, error)
+	GetUserByID(ID int) (user.User, error)
 }
 
 type service struct {
@@ -23,8 +23,8 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) RegistrasiUser(input model.RegisterUserInput) (model.User, error) {
-	user := model.User{}
+func (s *service) RegistrasiUser(input user.RegisterUserInput) (user.User, error) {
+	user := user.User{}
 
 	user.Name = input.Name
 	user.Occupation = input.Occupation
@@ -45,7 +45,7 @@ func (s *service) RegistrasiUser(input model.RegisterUserInput) (model.User, err
 	return newUser, nil
 }
 
-func (s *service) Login(input model.LoginInput) (model.User, error) {
+func (s *service) Login(input user.LoginInput) (user.User, error) {
 	email := input.Email
 	password := input.Password
 
@@ -66,7 +66,7 @@ func (s *service) Login(input model.LoginInput) (model.User, error) {
 	return newUser, nil
 }
 
-func (s *service) IsAvailableEmail(input model.CheckEmailInput) (bool, error) {
+func (s *service) IsAvailableEmail(input user.CheckEmailInput) (bool, error) {
 	email := input.Email
 
 	user, err := s.repository.FindByEmail(email)
@@ -81,7 +81,7 @@ func (s *service) IsAvailableEmail(input model.CheckEmailInput) (bool, error) {
 	return false, nil
 }
 
-func (s *service) SaveAvatar(ID int, fileLocation string) (model.User, error) {
+func (s *service) SaveAvatar(ID int, fileLocation string) (user.User, error) {
 	user, err := s.repository.FindByID(ID)
 	if err != nil {
 		return user, err
@@ -97,7 +97,7 @@ func (s *service) SaveAvatar(ID int, fileLocation string) (model.User, error) {
 	return updateUser, nil
 }
 
-func (s *service) GetUserByID(ID int) (model.User, error) {
+func (s *service) GetUserByID(ID int) (user.User, error) {
 	user, err := s.repository.FindByID(ID)
 	if err != nil {
 		return user, err

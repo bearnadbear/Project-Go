@@ -1,10 +1,10 @@
-package reserv_campaign
+package reposervicecampaign
 
-import "project/model"
+import "project/model/campaign"
 
 type Service interface {
-	GetCampaign(userID int) ([]model.Campaign, error)
-	GetCampaignByID(input model.GetCampaignDetailInput) (model.Campaign, error)
+	GetCampaign(userID int) ([]campaign.Campaign, error)
+	GetCampaignByID(input campaign.GetCampaignDetailInput) (campaign.Campaign, error)
 }
 
 type service struct {
@@ -15,7 +15,7 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) GetCampaign(userID int) ([]model.Campaign, error) {
+func (s *service) GetCampaign(userID int) ([]campaign.Campaign, error) {
 	if userID != 0 {
 		campaign, err := s.repository.FindByUserID(userID)
 		if err != nil {
@@ -33,7 +33,7 @@ func (s *service) GetCampaign(userID int) ([]model.Campaign, error) {
 	return campaign, nil
 }
 
-func (s *service) GetCampaignByID(input model.GetCampaignDetailInput) (model.Campaign, error) {
+func (s *service) GetCampaignByID(input campaign.GetCampaignDetailInput) (campaign.Campaign, error) {
 	campaign, err := s.repository.FindByID(input.ID)
 	if err != nil {
 		return campaign, err

@@ -1,21 +1,10 @@
-package model
+package campaign
 
-import "time"
+import (
+	model "project/model/user"
+	"time"
+)
 
-// Users
-type User struct {
-	ID             int
-	Name           string
-	Occupation     string
-	Email          string
-	Password       string
-	AvatarFileName string
-	Role           string
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
-}
-
-// Campaigns
 type Campaign struct {
 	ID               int
 	UserID           int
@@ -30,7 +19,7 @@ type Campaign struct {
 	CreatedAt        time.Time
 	UpdatedAt        time.Time
 	CampaignImages   []CampaignImage
-	User             User
+	User             model.User
 }
 
 type CampaignImage struct {

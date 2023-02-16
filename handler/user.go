@@ -5,22 +5,23 @@ import (
 	"net/http"
 	"project/auth"
 	"project/model"
-	"project/reserv_user"
+	u "project/model/user"
+	reposerviceUser "project/reposervice/reposervice-user"
 
 	"github.com/gin-gonic/gin"
 )
 
 type userHandler struct {
-	userService reserv_user.Service
+	userService reposerviceUser.Service
 	authService auth.Service
 }
 
-func NewUserHandler(userService reserv_user.Service, authService auth.Service) *userHandler {
+func NewUserHandler(userService reposerviceUser.Service, authService auth.Service) *userHandler {
 	return &userHandler{userService, authService}
 }
 
 func (h *userHandler) RegisterUser(c *gin.Context) {
-	var input model.RegisterUserInput
+	var input u.RegisterUserInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -46,15 +47,14 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatUser(user, token)
+	formatter := u.FormatUser(user, token)
 
 	response := model.APIResponse("Account has been register", http.StatusOK, "success", formatter)
-
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userHandler) Login(c *gin.Context) {
-	var input model.LoginInput
+	var input u.LoginInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -82,15 +82,14 @@ func (h *userHandler) Login(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatUser(user, token)
+	formatter := u.FormatUser(user, token)
 
 	response := model.APIResponse("Successfuly login", http.StatusOK, "success", formatter)
-
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
-	var input model.CheckEmailInput
+	var input u.CheckEmailInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -124,7 +123,6 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 	}
 
 	response := model.APIResponse(metaMessage, http.StatusOK, "success", data)
-
 	c.JSON(http.StatusOK, response)
 }
 
@@ -138,7 +136,7 @@ func (h *userHandler) UploadAvataric(c *gin.Context) {
 		return
 	}
 
-	currentUser := c.MustGet("currentUser").(model.User)
+	currentUser := c.MustGet("currentUser").(u.User)
 	userID := currentUser.ID
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
@@ -164,6 +162,5 @@ func (h *userHandler) UploadAvataric(c *gin.Context) {
 	data := gin.H{"is_uploaded": true}
 
 	response := model.APIResponse("Avatar successfuly uploaded", http.StatusOK, "success", data)
-
 	c.JSON(http.StatusOK, response)
 }
