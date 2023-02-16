@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 	"project/model"
-	camp "project/model/campaign"
+	modelCampaign "project/model/campaign"
 	reposerviceCampaign "project/reposervice/reposervice-campaign"
 	"strconv"
 
@@ -28,12 +28,12 @@ func (h *CampaignHandler) GetCampaigns(c *gin.Context) {
 		return
 	}
 
-	response := model.APIResponse("List of campaign", http.StatusOK, "success", camp.FormatCampaigns(campaign))
+	response := model.APIResponse("List of campaign", http.StatusOK, "success", modelCampaign.FormatCampaigns(campaign))
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *CampaignHandler) GetCampaign(c *gin.Context) {
-	var input camp.GetCampaignDetailInput
+	var input modelCampaign.GetCampaignDetailInput
 
 	err := c.ShouldBindUri(&input)
 	if err != nil {
@@ -49,7 +49,7 @@ func (h *CampaignHandler) GetCampaign(c *gin.Context) {
 		return
 	}
 
-	formatter := camp.FormatCampaignDetail(campaign)
+	formatter := modelCampaign.FormatCampaignDetail(campaign)
 
 	response := model.APIResponse("Campaign detail", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)

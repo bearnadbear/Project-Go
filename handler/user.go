@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"project/auth"
 	"project/model"
-	u "project/model/user"
+	modelUser "project/model/user"
 	reposerviceUser "project/reposervice/reposervice-user"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +21,7 @@ func NewUserHandler(userService reposerviceUser.Service, authService auth.Servic
 }
 
 func (h *userHandler) RegisterUser(c *gin.Context) {
-	var input u.RegisterUserInput
+	var input modelUser.RegisterUserInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -47,14 +47,14 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	formatter := u.FormatUser(user, token)
+	formatter := modelUser.FormatUser(user, token)
 
 	response := model.APIResponse("Account has been register", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userHandler) Login(c *gin.Context) {
-	var input u.LoginInput
+	var input modelUser.LoginInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -82,14 +82,14 @@ func (h *userHandler) Login(c *gin.Context) {
 		return
 	}
 
-	formatter := u.FormatUser(user, token)
+	formatter := modelUser.FormatUser(user, token)
 
 	response := model.APIResponse("Successfuly login", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
-	var input u.CheckEmailInput
+	var input modelUser.CheckEmailInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -136,7 +136,7 @@ func (h *userHandler) UploadAvataric(c *gin.Context) {
 		return
 	}
 
-	currentUser := c.MustGet("currentUser").(u.User)
+	currentUser := c.MustGet("currentUser").(modelUser.User)
 	userID := currentUser.ID
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
