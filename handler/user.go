@@ -48,7 +48,7 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 
 	formatter := model.FormatUser(user, token)
 
-	response := model.APIResponse("Account has been register", http.StatusOK, "succes", formatter)
+	response := model.APIResponse("Account has been register", http.StatusOK, "success", formatter)
 
 	c.JSON(http.StatusOK, response)
 }
@@ -84,7 +84,7 @@ func (h *userHandler) Login(c *gin.Context) {
 
 	formatter := model.FormatUser(user, token)
 
-	response := model.APIResponse("Successfuly login", http.StatusOK, "succes", formatter)
+	response := model.APIResponse("Successfuly login", http.StatusOK, "success", formatter)
 
 	c.JSON(http.StatusOK, response)
 }
@@ -123,7 +123,7 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 		metaMessage = "Email is available"
 	}
 
-	response := model.APIResponse(metaMessage, http.StatusOK, "succes", data)
+	response := model.APIResponse(metaMessage, http.StatusOK, "success", data)
 
 	c.JSON(http.StatusOK, response)
 }
@@ -163,7 +163,7 @@ func (h *userHandler) UploadAvataric(c *gin.Context) {
 
 	data := gin.H{"is_uploaded": true}
 
-	response := model.APIResponse("Avatar successfuly uploaded", http.StatusOK, "succes", data)
+	response := model.APIResponse("Avatar successfuly uploaded", http.StatusOK, "success", data)
 
 	c.JSON(http.StatusOK, response)
 }

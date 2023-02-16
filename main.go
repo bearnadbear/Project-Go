@@ -62,6 +62,7 @@ func main() {
 	api.POST("/avatars", auth.AuthMiddleware(authService, userService), userHandler.UploadAvataric)
 
 	api.GET("/campaigns", campaignHandler.GetCampaigns)
+	api.GET("/campaigns/:id", campaignHandler.GetCampaign)
 
 	router.Run()
 }

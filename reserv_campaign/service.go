@@ -4,6 +4,7 @@ import "project/model"
 
 type Service interface {
 	GetCampaign(userID int) ([]model.Campaign, error)
+	GetCampaignByID(input model.GetCampaignDetailInput) (model.Campaign, error)
 }
 
 type service struct {
@@ -25,6 +26,15 @@ func (s *service) GetCampaign(userID int) ([]model.Campaign, error) {
 	}
 
 	campaign, err := s.repository.FindAll()
+	if err != nil {
+		return campaign, err
+	}
+
+	return campaign, nil
+}
+
+func (s *service) GetCampaignByID(input model.GetCampaignDetailInput) (model.Campaign, error) {
+	campaign, err := s.repository.FindByID(input.ID)
 	if err != nil {
 		return campaign, err
 	}

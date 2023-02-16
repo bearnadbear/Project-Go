@@ -63,8 +63,8 @@ INSERT INTO users VALUES
 	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '12345678', '', 'admin', NOW(), NOW());
 
 INSERT INTO campaigns VALUES 
-	(1, 1, 'Faris', 'Hahihuheho', 'Huhahihuhe', 'Hoho', 100, 10, 100, 'Hihi', NOW(), NOW()),
-	(2, 2, 'Firdaus', 'Hahihuheho', 'Huhahihuhe', 'Hoho', 200, 20, 200, 'Hihi', NOW(), NOW());
+	(1, 1, 'Faris-c', 'Hahihuheho', 'Huhahihuhe', 'Haha, Hihi, Huhu', 100, 10, 100, 'Hoho', NOW(), NOW()),
+	(2, 2, 'Firdaus-c', 'Hahihuheho', 'Huhahihuhe', 'Hehe, Hoho, Haho', 200, 20, 200, 'Hoho', NOW(), NOW());
 
 INSERT INTO campaign_images VALUES
 	(1, 1, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
