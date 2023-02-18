@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS transactions(
 );
 
 INSERT INTO users VALUES 
-	(1, 'Faris', 'Programmer', 'punyanyaarii@gmail.com', '12345678', '', 'admin', NOW(), NOW()),
-	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '12345678', '', 'admin', NOW(), NOW());
+	(1, 'Faris', 'Programmer', 'punyanyaarii@gmail.com', '12345678', '', 'user', NOW(), NOW()),
+	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '12345678', '', 'user', NOW(), NOW());
 
 INSERT INTO campaigns VALUES 
 	(1, 1, 'Faris-c', 'Hahihuheho', 'Huhahihuhe', 'Haha, Hihi, Huhu', 100, 10, 100, 'Hoho', NOW(), NOW()),

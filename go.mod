@@ -4,7 +4,11 @@ go 1.19
 
 require gorm.io/driver/postgres v1.4.6
 
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/gosimple/slug v1.13.1 // indirect
+	github.com/gosimple/unidecode v1.0.1 // indirect
+)
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
