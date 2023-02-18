@@ -2,19 +2,19 @@ package handler
 
 import (
 	"net/http"
-	"project/model"
-	modelCampaign "project/model/campaign"
-	reposerviceCampaign "project/reposervice/reposervice-campaign"
+	"project/helper"
+	model "project/model/campaign"
+	reposervice "project/reposervice/campaign"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 type CampaignHandler struct {
-	campaignService reposerviceCampaign.Service
+	campaignService reposervice.Service
 }
 
-func NewCampaignHandler(campaignService reposerviceCampaign.Service) *CampaignHandler {
+func NewCampaignHandler(campaignService reposervice.Service) *CampaignHandler {
 	return &CampaignHandler{campaignService}
 }
 
@@ -23,34 +23,34 @@ func (h *CampaignHandler) GetCampaigns(c *gin.Context) {
 
 	campaign, err := h.campaignService.GetCampaign(userID)
 	if err != nil {
-		response := model.APIResponse("Error to get campaign", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Error to get campaign", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
-	response := model.APIResponse("List of campaign", http.StatusOK, "success", modelCampaign.FormatCampaigns(campaign))
+	response := helper.APIResponse("List of campaign", http.StatusOK, "success", model.FormatCampaigns(campaign))
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *CampaignHandler) GetCampaign(c *gin.Context) {
-	var input modelCampaign.GetCampaignDetailInput
+	var input model.GetCampaignDetailInput
 
 	err := c.ShouldBindUri(&input)
 	if err != nil {
-		response := model.APIResponse("Failed to get detail of campaign", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed to get detail of campaign", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
 	campaign, err := h.campaignService.GetCampaignByID(input)
 	if err != nil {
-		response := model.APIResponse("Failed to get detail of campaign", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed to get detail of campaign", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
-	formatter := modelCampaign.FormatCampaignDetail(campaign)
+	formatter := model.FormatCampaignDetail(campaign)
 
-	response := model.APIResponse("Campaign detail", http.StatusOK, "success", formatter)
+	response := helper.APIResponse("Campaign detail", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 }

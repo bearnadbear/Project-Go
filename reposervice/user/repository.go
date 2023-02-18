@@ -1,16 +1,16 @@
-package reposerviceUser
+package reposervice
 
 import (
-	modelUser "project/model/user"
+	model "project/model/user"
 
 	"gorm.io/gorm"
 )
 
 type Repository interface {
-	Save(user modelUser.User) (modelUser.User, error)
-	FindByEmail(email string) (modelUser.User, error)
-	FindByID(ID int) (modelUser.User, error)
-	Update(user modelUser.User) (modelUser.User, error)
+	Save(user model.User) (model.User, error)
+	FindByEmail(email string) (model.User, error)
+	FindByID(ID int) (model.User, error)
+	Update(user model.User) (model.User, error)
 }
 
 type repository struct {
@@ -21,7 +21,7 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) Save(user modelUser.User) (modelUser.User, error) {
+func (r *repository) Save(user model.User) (model.User, error) {
 	err := r.db.Create(&user).Error
 	if err != nil {
 		return user, err
@@ -30,8 +30,8 @@ func (r *repository) Save(user modelUser.User) (modelUser.User, error) {
 	return user, nil
 }
 
-func (r *repository) FindByEmail(email string) (modelUser.User, error) {
-	var user modelUser.User
+func (r *repository) FindByEmail(email string) (model.User, error) {
+	var user model.User
 
 	err := r.db.Where("email = ?", email).Find(&user).Error
 	if err != nil {
@@ -41,8 +41,8 @@ func (r *repository) FindByEmail(email string) (modelUser.User, error) {
 	return user, nil
 }
 
-func (r *repository) FindByID(ID int) (modelUser.User, error) {
-	var user modelUser.User
+func (r *repository) FindByID(ID int) (model.User, error) {
+	var user model.User
 
 	err := r.db.Where("id = ?", ID).Find(&user).Error
 	if err != nil {
@@ -52,7 +52,7 @@ func (r *repository) FindByID(ID int) (modelUser.User, error) {
 	return user, nil
 }
 
-func (r *repository) Update(user modelUser.User) (modelUser.User, error) {
+func (r *repository) Update(user model.User) (model.User, error) {
 	err := r.db.Save(&user).Error
 	if err != nil {
 		return user, err

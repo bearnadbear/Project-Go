@@ -2,20 +2,20 @@ package auth
 
 import (
 	"net/http"
-	"project/model"
-	reposerviceUser "project/reposervice/reposervice-user"
+	"project/helper"
+	reposervice "project/reposervice/user"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-func AuthMiddleware(authService Service, userService reposerviceUser.Service) gin.HandlerFunc {
+func AuthMiddleware(authService Service, userService reposervice.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 
 		if !strings.Contains(authHeader, "Bearer") {
-			response := model.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
+			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 
 			return
@@ -30,7 +30,7 @@ func AuthMiddleware(authService Service, userService reposerviceUser.Service) gi
 
 		token, err := authService.ValidateToken(tokenString)
 		if err != nil {
-			response := model.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
+			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 
 			return
@@ -38,7 +38,7 @@ func AuthMiddleware(authService Service, userService reposerviceUser.Service) gi
 
 		claim, ok := token.Claims.(jwt.MapClaims)
 		if !ok || !token.Valid {
-			response := model.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
+			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 
 			return
@@ -48,7 +48,7 @@ func AuthMiddleware(authService Service, userService reposerviceUser.Service) gi
 
 		user, err := userService.GetUserByID(userID)
 		if err != nil {
-			response := model.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
+			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 
 			return

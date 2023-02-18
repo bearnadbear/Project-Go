@@ -1,4 +1,4 @@
-package modelCampaign
+package model
 
 import "strings"
 

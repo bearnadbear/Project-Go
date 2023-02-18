@@ -1,4 +1,4 @@
-package modelUser
+package model
 
 type RegisterUserInput struct {
 	Name       string `json:"name" binding:"required"`
