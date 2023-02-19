@@ -58,18 +58,18 @@ CREATE TABLE IF NOT EXISTS transactions(
 	  REFERENCES campaigns(id)
 );
 
-INSERT INTO users VALUES 
-	(1, 'Faris', 'Programmer', 'punyanyaarii@gmail.com', '12345678', '', 'user', NOW(), NOW()),
-	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '12345678', '', 'user', NOW(), NOW());
+-- INSERT INTO users VALUES 
+-- 	(1, 'Faris', 'Programmer', 'punyanyaarii@gmail.com', '12345678', '', 'user', NOW(), NOW()),
+-- 	(2, 'Firdaus', 'Programmer', 'farisfirdausapr@gmail.com', '12345678', '', 'user', NOW(), NOW());
 
-INSERT INTO campaigns VALUES 
-	(1, 1, 'Faris-c', 'Hahihuheho', 'Huhahihuhe', 'Haha, Hihi, Huhu', 100, 10, 100, 'Hoho', NOW(), NOW()),
-	(2, 2, 'Firdaus-c', 'Hahihuheho', 'Huhahihuhe', 'Hehe, Hoho, Haho', 200, 20, 200, 'Hoho', NOW(), NOW());
+-- INSERT INTO campaigns VALUES 
+-- 	(1, 1, 'Faris-c', 'Hahihuheho', 'Huhahihuhe', 'Haha, Hihi, Huhu', 100, 10, 100, 'Hoho', NOW(), NOW()),
+-- 	(2, 2, 'Firdaus-c', 'Hahihuheho', 'Huhahihuhe', 'Hehe, Hoho, Haho', 200, 20, 200, 'Hoho', NOW(), NOW());
 
-INSERT INTO campaign_images VALUES
-	(1, 1, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
-	(2, 1, 'campaign-images/dua.jpg', 0, NOW(), NOW()),
-	(3, 1, 'campaign-images/tiga.jpg', 1, NOW(), NOW()),
-	(4, 2, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
-	(5, 2, 'campaign-images/dua.jpg', 1, NOW(), NOW()),
-	(6, 2, 'campaign-images/tiga.jpg', 2, NOW(), NOW());
+-- INSERT INTO campaign_images VALUES
+-- 	(1, 1, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
+-- 	(2, 1, 'campaign-images/dua.jpg', 0, NOW(), NOW()),
+-- 	(3, 1, 'campaign-images/tiga.jpg', 1, NOW(), NOW()),
+-- 	(4, 2, 'campaign-images/satu.jpg', 0, NOW(), NOW()),
+-- 	(5, 2, 'campaign-images/dua.jpg', 1, NOW(), NOW()),
+-- 	(6, 2, 'campaign-images/tiga.jpg', 2, NOW(), NOW());
