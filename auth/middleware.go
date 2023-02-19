@@ -3,14 +3,14 @@ package auth
 import (
 	"net/http"
 	"project/helper"
-	reposervice "project/reposervice/user"
+	sourceUser "project/source_user"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-func AuthMiddleware(authService Service, userService reposervice.Service) gin.HandlerFunc {
+func AuthMiddleware(authService Service, userService sourceUser.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 

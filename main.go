@@ -5,8 +5,8 @@ import (
 	"project/auth"
 	"project/database"
 	"project/handler"
-	reposervice_Campaign "project/reposervice/campaign"
-	reposervice_User "project/reposervice/user"
+	sourceCampaign "project/source_campaign"
+	sourceUser "project/source_user"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -37,12 +37,12 @@ func main() {
 	}
 
 	// tahap 1 - make repository
-	userRepository := reposervice_User.NewRepository(db)
-	campaignRepository := reposervice_Campaign.NewRepository(db)
+	userRepository := sourceUser.NewRepository(db)
+	campaignRepository := sourceCampaign.NewRepository(db)
 
 	// tahap 2 - make service
-	userService := reposervice_User.NewService(userRepository)
-	campaignService := reposervice_Campaign.NewService(campaignRepository)
+	userService := sourceUser.NewService(userRepository)
+	campaignService := sourceCampaign.NewService(campaignRepository)
 
 	// tahap 4
 	authService := auth.NewService()

@@ -1,16 +1,14 @@
-package reposervice
+package sourceCampaign
 
 import (
-	model "project/model/campaign"
-
 	"gorm.io/gorm"
 )
 
 type Repository interface {
-	FindAll() ([]model.Campaign, error)
-	FindByUserID(UserID int) ([]model.Campaign, error)
-	FindByID(ID int) (model.Campaign, error)
-	Save(campaign model.Campaign) (model.Campaign, error)
+	FindAll() ([]Campaign, error)
+	FindByUserID(UserID int) ([]Campaign, error)
+	FindByID(ID int) (Campaign, error)
+	Save(campaign Campaign) (Campaign, error)
 }
 
 type repository struct {
@@ -21,8 +19,8 @@ func NewRepository(db *gorm.DB) *repository {
 	return &repository{db}
 }
 
-func (r *repository) FindAll() ([]model.Campaign, error) {
-	var campaigns []model.Campaign
+func (r *repository) FindAll() ([]Campaign, error) {
+	var campaigns []Campaign
 
 	err := r.db.Preload("CampaignImages", "campaign_images.is_primary = 1").Find(&campaigns).Error
 	if err != nil {
@@ -33,8 +31,8 @@ func (r *repository) FindAll() ([]model.Campaign, error) {
 
 }
 
-func (r *repository) FindByUserID(UserID int) ([]model.Campaign, error) {
-	var campaigns []model.Campaign
+func (r *repository) FindByUserID(UserID int) ([]Campaign, error) {
+	var campaigns []Campaign
 
 	err := r.db.Where("user_id = ?", UserID).Preload("CampaignImages", "campaign_images.is_primary = 1").Find(&campaigns).Error
 	if err != nil {
@@ -44,8 +42,8 @@ func (r *repository) FindByUserID(UserID int) ([]model.Campaign, error) {
 	return campaigns, nil
 }
 
-func (r *repository) FindByID(ID int) (model.Campaign, error) {
-	var campaign model.Campaign
+func (r *repository) FindByID(ID int) (Campaign, error) {
+	var campaign Campaign
 
 	err := r.db.Preload("User").Preload("CampaignImages").Where("id = ?", ID).Find(&campaign).Error
 	if err != nil {
@@ -55,7 +53,7 @@ func (r *repository) FindByID(ID int) (model.Campaign, error) {
 	return campaign, nil
 }
 
-func (r *repository) Save(campaign model.Campaign) (model.Campaign, error) {
+func (r *repository) Save(campaign Campaign) (Campaign, error) {
 	err := r.db.Create(&campaign).Error
 	if err != nil {
 		return campaign, err

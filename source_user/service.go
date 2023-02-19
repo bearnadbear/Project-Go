@@ -1,18 +1,17 @@
-package reposervice
+package sourceUser
 
 import (
 	"errors"
-	model "project/model/user"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Service interface {
-	RegistrasiUser(input model.RegisterUserInput) (model.User, error)
-	Login(input model.LoginInput) (model.User, error)
-	IsAvailableEmail(input model.CheckEmailInput) (bool, error)
-	SaveAvatar(ID int, fileLocation string) (model.User, error)
-	GetUserByID(ID int) (model.User, error)
+	RegistrasiUser(input RegisterUserInput) (User, error)
+	Login(input LoginInput) (User, error)
+	IsAvailableEmail(input CheckEmailInput) (bool, error)
+	SaveAvatar(ID int, fileLocation string) (User, error)
+	GetUserByID(ID int) (User, error)
 }
 
 type service struct {
@@ -23,8 +22,8 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) RegistrasiUser(input model.RegisterUserInput) (model.User, error) {
-	user := model.User{}
+func (s *service) RegistrasiUser(input RegisterUserInput) (User, error) {
+	user := User{}
 
 	user.Name = input.Name
 	user.Occupation = input.Occupation
@@ -45,7 +44,7 @@ func (s *service) RegistrasiUser(input model.RegisterUserInput) (model.User, err
 	return newUser, nil
 }
 
-func (s *service) Login(input model.LoginInput) (model.User, error) {
+func (s *service) Login(input LoginInput) (User, error) {
 	email := input.Email
 	password := input.Password
 
@@ -55,7 +54,7 @@ func (s *service) Login(input model.LoginInput) (model.User, error) {
 	}
 
 	if newUser.ID == 0 {
-		return newUser, errors.New("No user found on that email")
+		return newUser, errors.New("no user found on that email")
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(newUser.Password), []byte(password))
@@ -66,7 +65,7 @@ func (s *service) Login(input model.LoginInput) (model.User, error) {
 	return newUser, nil
 }
 
-func (s *service) IsAvailableEmail(input model.CheckEmailInput) (bool, error) {
+func (s *service) IsAvailableEmail(input CheckEmailInput) (bool, error) {
 	email := input.Email
 
 	user, err := s.repository.FindByEmail(email)
@@ -81,7 +80,7 @@ func (s *service) IsAvailableEmail(input model.CheckEmailInput) (bool, error) {
 	return false, nil
 }
 
-func (s *service) SaveAvatar(ID int, fileLocation string) (model.User, error) {
+func (s *service) SaveAvatar(ID int, fileLocation string) (User, error) {
 	user, err := s.repository.FindByID(ID)
 	if err != nil {
 		return user, err
@@ -97,14 +96,14 @@ func (s *service) SaveAvatar(ID int, fileLocation string) (model.User, error) {
 	return updateUser, nil
 }
 
-func (s *service) GetUserByID(ID int) (model.User, error) {
+func (s *service) GetUserByID(ID int) (User, error) {
 	user, err := s.repository.FindByID(ID)
 	if err != nil {
 		return user, err
 	}
 
 	if user.ID == 0 {
-		return user, errors.New("No user found on with that ID")
+		return user, errors.New("no user found on with that ID")
 	}
 
 	return user, nil

@@ -1,7 +1,7 @@
-package model
+package sourceCampaign
 
 import (
-	modelUser "project/model/user"
+	sourceUser "project/source_user"
 	"time"
 )
 
@@ -19,7 +19,7 @@ type Campaign struct {
 	CreatedAt        time.Time
 	UpdatedAt        time.Time
 	CampaignImages   []CampaignImage
-	User             modelUser.User
+	User             sourceUser.User
 }
 
 type CampaignImage struct {

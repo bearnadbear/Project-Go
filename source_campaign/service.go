@@ -1,16 +1,15 @@
-package reposervice
+package sourceCampaign
 
 import (
 	"fmt"
-	model "project/model/campaign"
 
 	"github.com/gosimple/slug"
 )
 
 type Service interface {
-	GetCampaign(userID int) ([]model.Campaign, error)
-	GetCampaignByID(input model.GetCampaignDetailInput) (model.Campaign, error)
-	CreateCampaign(input model.CreateCampaignInput) (model.Campaign, error)
+	GetCampaign(userID int) ([]Campaign, error)
+	GetCampaignByID(input GetCampaignDetailInput) (Campaign, error)
+	CreateCampaign(input CreateCampaignInput) (Campaign, error)
 }
 
 type service struct {
@@ -21,7 +20,7 @@ func NewService(repository Repository) *service {
 	return &service{repository}
 }
 
-func (s *service) GetCampaign(userID int) ([]model.Campaign, error) {
+func (s *service) GetCampaign(userID int) ([]Campaign, error) {
 	if userID != 0 {
 		campaign, err := s.repository.FindByUserID(userID)
 		if err != nil {
@@ -39,7 +38,7 @@ func (s *service) GetCampaign(userID int) ([]model.Campaign, error) {
 	return campaign, nil
 }
 
-func (s *service) GetCampaignByID(input model.GetCampaignDetailInput) (model.Campaign, error) {
+func (s *service) GetCampaignByID(input GetCampaignDetailInput) (Campaign, error) {
 	campaign, err := s.repository.FindByID(input.ID)
 	if err != nil {
 		return campaign, err
@@ -48,8 +47,8 @@ func (s *service) GetCampaignByID(input model.GetCampaignDetailInput) (model.Cam
 	return campaign, nil
 }
 
-func (s *service) CreateCampaign(input model.CreateCampaignInput) (model.Campaign, error) {
-	campaign := model.Campaign{
+func (s *service) CreateCampaign(input CreateCampaignInput) (Campaign, error) {
+	campaign := Campaign{
 		Name:             input.Name,
 		ShortDescription: input.ShortDescription,
 		Description:      input.Description,

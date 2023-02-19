@@ -5,23 +5,22 @@ import (
 	"net/http"
 	"project/auth"
 	"project/helper"
-	model "project/model/user"
-	reposervice "project/reposervice/user"
+	sourceUser "project/source_user"
 
 	"github.com/gin-gonic/gin"
 )
 
 type userHandler struct {
-	userService reposervice.Service
+	userService sourceUser.Service
 	authService auth.Service
 }
 
-func NewUserHandler(userService reposervice.Service, authService auth.Service) *userHandler {
+func NewUserHandler(userService sourceUser.Service, authService auth.Service) *userHandler {
 	return &userHandler{userService, authService}
 }
 
 func (h *userHandler) RegisterUser(c *gin.Context) {
-	var input model.RegisterUserInput
+	var input sourceUser.RegisterUserInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -47,14 +46,14 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatUser(user, token)
+	formatter := sourceUser.FormatUser(user, token)
 
 	response := helper.APIResponse("Account has been register", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userHandler) Login(c *gin.Context) {
-	var input model.LoginInput
+	var input sourceUser.LoginInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -82,14 +81,14 @@ func (h *userHandler) Login(c *gin.Context) {
 		return
 	}
 
-	formatter := model.FormatUser(user, token)
+	formatter := sourceUser.FormatUser(user, token)
 
 	response := helper.APIResponse("Successfuly login", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
-	var input model.CheckEmailInput
+	var input sourceUser.CheckEmailInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -136,7 +135,7 @@ func (h *userHandler) UploadAvataric(c *gin.Context) {
 		return
 	}
 
-	currentUser := c.MustGet("currentUser").(model.User)
+	currentUser := c.MustGet("currentUser").(sourceUser.User)
 	userID := currentUser.ID
 
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
