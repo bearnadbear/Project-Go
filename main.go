@@ -6,6 +6,7 @@ import (
 	"project/database"
 	"project/handler"
 	sourceCampaign "project/source_campaign"
+	sourceTransaction "project/source_transaction"
 	sourceUser "project/source_user"
 
 	"github.com/gin-gonic/gin"
@@ -39,10 +40,12 @@ func main() {
 	// tahap 1 - make repository
 	userRepository := sourceUser.NewRepository(db)
 	campaignRepository := sourceCampaign.NewRepository(db)
+	transactionsRepository := sourceTransaction.NewRepository(db)
 
 	// tahap 2 - make service
 	userService := sourceUser.NewService(userRepository)
 	campaignService := sourceCampaign.NewService(campaignRepository)
+	transactionsService := sourceTransaction.NewService(transactionsRepository, campaignRepository)
 
 	// tahap 4
 	authService := auth.NewService()
@@ -50,6 +53,7 @@ func main() {
 	// tahap 3 - make user handler to service
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
+	transactionHandler := handler.NewTransactionHandler(transactionsService)
 
 	router := gin.Default()
 	router.Static("/images", "./images")
@@ -66,6 +70,8 @@ func main() {
 	api.POST("/campaigns", auth.AuthMiddleware(authService, userService), campaignHandler.CreateCampaign)
 	api.PUT("/campaigns/:id", auth.AuthMiddleware(authService, userService), campaignHandler.UpdateCampaign)
 	api.POST("/campaign-images", auth.AuthMiddleware(authService, userService), campaignHandler.UploadImage)
+
+	api.GET("/campaigns/:id/transactions", auth.AuthMiddleware(authService, userService), transactionHandler.GetCampaignTransaction)
 
 	router.Run()
 }
